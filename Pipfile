@@ -4,8 +4,6 @@ verify_ssl = true
 name = "pypi"
 
 [packages]
-camel = "==0.1.0"
-camel-ai = "==0.1.1"
 dotenv = "*"
 openai = "*"
 

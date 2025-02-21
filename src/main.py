@@ -48,7 +48,7 @@ config = {
 results = agent.run_lottery_decisions(config)
 
 # Save results to a JSON file
-with open("lottery_results-BDI.json", "w") as f:
+with open("results/lottery_results-BDI.json", "w") as f:
     json.dump(results, f, indent=4)
 
 print("Lottery choices processed by LLM agent. Results saved to 'lottery_results.json'.")
