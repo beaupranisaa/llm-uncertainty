@@ -6,6 +6,26 @@ Simple overview of use/purpose.
 
 An in-depth paragraph about your project and overview of use.
 
+
+## ✅ TODO List
+Current Game: Lottery Choices
+- [ ] Make it run multiple round all round
+- [ ] Record the results 
+- [ ] Extract final output whether or not model chooses A or B 
+- [ ] Record the r point (choosing between OptionA or OptionB)
+- [ ] Think of the BDI model
+- [ ] Choose multiple models, but one at a time
+- [ ] Analysis
+
+### 🔹 Completed Tasks ✅
+- [x] Initialized project - setup docker
+- [x] Set up simple lottery choices
+     [x] one model working
+     [x] able to choose one prompt type
+     [x] able to execute one round of game
+- [x] Created initial documentation
+
+
 ## Getting Started
 
 ### Dependencies
