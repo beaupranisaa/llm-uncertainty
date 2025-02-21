@@ -9,12 +9,13 @@ An in-depth paragraph about your project and overview of use.
 
 ## ✅ TODO List
 Current Game: Lottery Choices
-- [ ] Make it run multiple round all round
-- [ ] Record the results 
+Proprity:
+- [ ] Choose multiple models, but one at a time
+- [ ] Extract final output whether or not model chooses A or B 
+
+- [ ] Search for a better BDI reasoning
 - [ ] Extract final output whether or not model chooses A or B 
 - [ ] Record the r point (choosing between OptionA or OptionB)
-- [ ] Think of the BDI model
-- [ ] Choose multiple models, but one at a time
 - [ ] Analysis
 
 ### 🔹 Completed Tasks ✅
@@ -24,6 +25,13 @@ Current Game: Lottery Choices
      [x] able to choose one prompt type
      [x] able to execute one round of game
 - [x] Created initial documentation
+- [x] Make it run multiple round all round
+- [x] Record the results 
+- [x] Think of the BDI model
+
+### 🔹 Note to self:
+- Currently the model seems to be overly rational! it starts to calculating EV! huamn don't do that
+
 
 
 ## Getting Started

@@ -14,7 +14,6 @@
 {
     "1": [
         "Lottery_choices",
-        "How much will this person give to the other player? Only response with a specific price figure like '$5'! Else return 'I don't know'",
         ["You're taking part in an experiment. You are randomly paired with another player. You don't know who the player is, and the player doesn't know who you are. You will receive $10 from the study group. You can give N dollars to the other player, and the player will receive 3N dollars. How much money would you give to the other player?"
          "Each lottery consists of two options, each with different potential payouts and a specified probability of winning shown as a percentage.",
          "Each decision is independent, meaning your choice for one lottery does not affect or depend on any other lotteries.",
