@@ -1,0 +1,144 @@
+{
+    "lottery_choices": [
+        {
+            "Option_A": {
+                "probability_high": "1/10",
+                "reward_high": "$2.00",
+                "probability_low": "9/10",
+                "reward_low": "$1.60"
+            },
+            "Option_B": {
+                "probability_high": "1/10",
+                "reward_high": "$3.85",
+                "probability_low": "9/10",
+                "reward_low": "$0.10"
+            }
+        },
+        {
+            "Option_A": {
+                "probability_high": "2/10",
+                "reward_high": "$2.00",
+                "probability_low": "8/10",
+                "reward_low": "$1.60"
+            },
+            "Option_B": {
+                "probability_high": "2/10",
+                "reward_high": "$3.85",
+                "probability_low": "8/10",
+                "reward_low": "$0.10"
+            }
+        },
+        {
+            "Option_A": {
+                "probability_high": "3/10",
+                "reward_high": "$2.00",
+                "probability_low": "7/10",
+                "reward_low": "$1.60"
+            },
+            "Option_B": {
+                "probability_high": "3/10",
+                "reward_high": "$3.85",
+                "probability_low": "7/10",
+                "reward_low": "$0.10"
+            }
+        },
+        {
+            "Option_A": {
+                "probability_high": "4/10",
+                "reward_high": "$2.00",
+                "probability_low": "6/10",
+                "reward_low": "$1.60"
+            },
+            "Option_B": {
+                "probability_high": "4/10",
+                "reward_high": "$3.85",
+                "probability_low": "6/10",
+                "reward_low": "$0.10"
+            }
+        },
+        {
+            "Option_A": {
+                "probability_high": "5/10",
+                "reward_high": "$2.00",
+                "probability_low": "5/10",
+                "reward_low": "$1.60"
+            },
+            "Option_B": {
+                "probability_high": "5/10",
+                "reward_high": "$3.85",
+                "probability_low": "5/10",
+                "reward_low": "$0.10"
+            }
+        },
+        {
+            "Option_A": {
+                "probability_high": "6/10",
+                "reward_high": "$2.00",
+                "probability_low": "4/10",
+                "reward_low": "$1.60"
+            },
+            "Option_B": {
+                "probability_high": "6/10",
+                "reward_high": "$3.85",
+                "probability_low": "4/10",
+                "reward_low": "$0.10"
+            }
+        },
+        {
+            "Option_A": {
+                "probability_high": "7/10",
+                "reward_high": "$2.00",
+                "probability_low": "3/10",
+                "reward_low": "$1.60"
+            },
+            "Option_B": {
+                "probability_high": "7/10",
+                "reward_high": "$3.85",
+                "probability_low": "3/10",
+                "reward_low": "$0.10"
+            }
+        },
+        {
+            "Option_A": {
+                "probability_high": "8/10",
+                "reward_high": "$2.00",
+                "probability_low": "2/10",
+                "reward_low": "$1.60"
+            },
+            "Option_B": {
+                "probability_high": "8/10",
+                "reward_high": "$3.85",
+                "probability_low": "2/10",
+                "reward_low": "$0.10"
+            }
+        },
+        {
+            "Option_A": {
+                "probability_high": "9/10",
+                "reward_high": "$2.00",
+                "probability_low": "1/10",
+                "reward_low": "$1.60"
+            },
+            "Option_B": {
+                "probability_high": "9/10",
+                "reward_high": "$3.85",
+                "probability_low": "1/10",
+                "reward_low": "$0.10"
+            }
+        },
+        {
+            "Option_A": {
+                "probability_high": "10/10",
+                "reward_high": "$2.00",
+                "probability_low": "0/10",
+                "reward_low": "$1.60"
+            },
+            "Option_B": {
+                "probability_high": "10/10",
+                "reward_high": "$3.85",
+                "probability_low": "0/10",
+                "reward_low": "$0.10"
+            }
+        }
+    ]
+}

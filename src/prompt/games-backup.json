@@ -1,0 +1,30 @@
+{
+    "0": "For each lottery, we will present you with two choices, and you will decide which one you prefer.",
+    "1": "Each lottery consists of two options, each with different potential payouts and a specified probability of winning shown as a percentage.",
+    "2": "Each decision is independent, meaning your choice for one lottery does not affect or depend on any other lotteries.",
+    "3": "Each lottery presents two choices: Option A and Option B.",
+    "4": "You have the option to select either A or B, and your payment will be determined according to the specified rules.",
+    "5": "You will be shown two possible choices for each lottery, and you must pick the one you prefer.",
+    "6": "Every lottery will have two alternatives, each with a different possible reward and a corresponding probability of winning.",
+    "7": "Your selections in each lottery are separate from one another, meaning your past or future choices do not influence the current decision.",
+    "8": "Each lottery consists of two options labeled A and B for you to choose from.",
+    "9": "You can decide between option A or option B, and the payout will be based on the given conditions."
+  }
+  
+{
+    "1": [
+        "Lottery_choices",
+        "How much will this person give to the other player? Only response with a specific price figure like '$5'! Else return 'I don't know'",
+        ["You're taking part in an experiment. You are randomly paired with another player. You don't know who the player is, and the player doesn't know who you are. You will receive $10 from the study group. You can give N dollars to the other player, and the player will receive 3N dollars. How much money would you give to the other player?"
+         "Each lottery consists of two options, each with different potential payouts and a specified probability of winning shown as a percentage.",
+         "Each decision is independent, meaning your choice for one lottery does not affect or depend on any other lotteries.",
+         "Each lottery presents two choices: Option A and Option B.",
+         "You have the option to select either A or B, and your payment will be determined according to the specified rules.",
+         "You will be shown two possible choices for each lottery, and you must pick the one you prefer.",
+         "Every lottery will have two alternatives, each with a different possible reward and a corresponding probability of winning.",
+         "Your selections in each lottery are separate from one another, meaning your past or future choices do not influence the current decision.",
+         "Each lottery consists of two options labeled A and B for you to choose from.",
+         "You can decide between option A or option B, and the payout will be based on the given conditions."
+        ]
+    ],
+}

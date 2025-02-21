@@ -14,7 +14,7 @@ COPY Pipfile Pipfile.lock ./
 RUN pipenv install --deploy --system
 
 # Copy the rest of the project
-COPY . .
+COPY . /app/
 
 # Set default command to an interactive shell
 CMD ["/bin/bash"]
