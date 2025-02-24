@@ -11,19 +11,19 @@ An in-depth paragraph about your project and overview of use.
 Current Game: Lottery Choices
 Proprity:
 - [ ] Choose multiple models, but one at a time
-     [x] gpt-3.5-turbo             #is_chat       is_api
-     [x] gpt-3.5-turbo-instruct    #is_chat F     is_api
-     [x] gpt-4-turbo               #is_chat       is_api
-     [x] gpt-4o                    #is_chat       is_api
-     [ ] llama2-7b 
-     [ ] llama2-13b
-     [ ] llama2-70b
-     [ ] vicuna-7b
-     [ ] vicuna-13b
-     [ ] vicuna-33b
+     - [x] gpt-3.5-turbo             #is_chat       is_api
+     - [x] gpt-3.5-turbo-instruct    #is_chat F     is_api
+     - [x] gpt-4-turbo               #is_chat       is_api
+     - [x] gpt-4o                    #is_chat       is_api
+     - [ ] llama2-7b 
+     - [ ] llama2-13b
+     - [ ] llama2-70b
+     - [ ] vicuna-7b
+     - [ ] vicuna-13b
+     - [ ] vicuna-33b
      Note: need to include? 
-     [ ] llama3
-     [ ] deepseek
+     - [ ] llama3
+     - [ ] deepseek
 - [ ] Extract final output whether or not model chooses A or B 
 - [ ] Search for a better BDI reasoning
 - [ ] Record the r point (choosing between OptionA or OptionB)
@@ -32,16 +32,16 @@ Proprity:
 ### 🔹 Completed Tasks ✅
 - [x] Initialized project - setup docker
 - [x] Set up simple lottery choices
-     [x] one model working
-     [x] able to choose one prompt type
-     [x] able to execute one round of game
+     - [x] one model working
+     - [x] able to choose one prompt type
+     - [x] able to execute one round of game
 - [x] Created initial documentation
 - [x] Make it run multiple round all round
 - [x] Record the results 
 - [x] Think of the BDI model
 - [x] Add logging for debug purpose
-      [x] Create logging_config.py
-      [x] Output to log as well as terminal
+      - [x] Create logging_config.py
+      - [x] Output to log as well as terminal
 - [x] Test logging
 - [x] Create a config.yml file 
 
