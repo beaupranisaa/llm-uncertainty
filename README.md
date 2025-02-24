@@ -11,10 +11,22 @@ An in-depth paragraph about your project and overview of use.
 Current Game: Lottery Choices
 Proprity:
 - [ ] Choose multiple models, but one at a time
-- [ ] Extract final output whether or not model chooses A or B 
+     [x] gpt-3.5-turbo             #is_chat       is_api
+     [x] gpt-3.5-turbo-instruct    #is_chat F     is_api
+     [x] gpt-4-turbo               #is_chat       is_api
+     [x] gpt-4o                    #is_chat       is_api
+     [ ] llama2-7b 
+     [ ] llama2-13b
+     [ ] llama2-70b
+     [ ] vicuna-7b
+     [ ] vicuna-13b
+     [ ] vicuna-33b
+     Note: need to include? 
+     [ ] llama3
+     [ ] deepseek
 
-- [ ] Search for a better BDI reasoning
 - [ ] Extract final output whether or not model chooses A or B 
+- [ ] Search for a better BDI reasoning
 - [ ] Record the r point (choosing between OptionA or OptionB)
 - [ ] Analysis
 
@@ -31,7 +43,8 @@ Proprity:
 
 ### 🔹 Note to self:
 - Currently the model seems to be overly rational! it starts to calculating EV! huamn don't do that
-
+- Model choose each row idependently, it shouldn't it should see previous selected choice
+- Can we use free API for llama2
 
 
 ## Getting Started

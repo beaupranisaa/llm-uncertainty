@@ -5,15 +5,16 @@ from agents.agent import *
 from utils import open_file_as_json, process_lottery_choices
 import sys
 from agents.reasoning import get_reasoning
-
-# Initialize lottery agent
-agent = LotteryAgent()
+import os
+from dotenv import load_dotenv
+load_dotenv()
+openai_api_key = os.getenv("OPENAI_API_KEY")
 
 sys.path.append("../..")
 
 file_path_persona_info = 'prompt/persona-default.json'
 file_path_lottery_choices_instruction = 'prompt/games_instruction-test.json'
-file_path_lottery_choices = 'prompt/lottery_choices.json'
+file_path_lottery_choices = 'prompt/lottery_choices-test.json'
 
 # Get default persona
 personas_info_json = open_file_as_json(file_path_persona_info)
@@ -44,11 +45,18 @@ config = {
     "reasoning": reasoning
 }
 
+agent_params = {
+    "temperature": 1.0,
+    "max_tokens": 1500 #must change
+}
 # Run agent decisions
+# Initialize lottery agent
+agent = LotteryAgent(model = "gpt-4-turbo", provider = "openai", **agent_params)
 results = agent.run_lottery_decisions(config)
 
 # Save results to a JSON file
-with open("results/lottery_results-BDI.json", "w") as f:
+os.makedirs("results", exist_ok=True)
+with open("results/lottery_results-test-gpt-3.5-turbo-instruct.json", "w") as f:
     json.dump(results, f, indent=4)
 
 print("Lottery choices processed by LLM agent. Results saved to 'lottery_results.json'.")
