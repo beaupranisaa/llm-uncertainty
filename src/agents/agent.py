@@ -1,12 +1,34 @@
 import openai
 import logging
 from logging_config import logger
+import json
 # from transformers import pipeline
 
 class LotteryAgent:
 
     # List of models that use chat-based inputs
     CHAT_MODELS = {"gpt-3.5-turbo", "gpt-4o", "gpt-4-turbo"}
+
+    lottery_function_schema = [
+        {
+            "name": "lottery_decision_FC",
+            "description": "Analyzes two lottery options and extracts the user's belief, desire, intention, and final choice.",
+            "parameters": {
+                "type": "object",
+                "properties": {
+                    "Belief": {"type": "string", "description": "The belief about the lottery choices."},
+                    "Desire": {"type": "string", "description": "The desire in choosing the lottery option."},
+                    "Intention": {"type": "string", "description": "The intention behind the lottery decision."},
+                    "Final_Option": {
+                        "type": "string",
+                        "enum": ["Option A", "Option B"],  # Restrict output to only these two
+                        "description": "The final choice (Option A or Option B)."
+                    }
+                },
+                "required": ["Belief", "Desire", "Intention", "Final_Option"]
+            }
+        }
+    ]
 
     def __init__(self, model="gpt-3.5-turbo", provider="openai", **kwargs):
         """
@@ -71,9 +93,38 @@ class LotteryAgent:
                         {"role": "system", "content": system_prompt},
                         {"role": "user", "content": user_prompt}
                     ],
+                    functions=self.lottery_function_schema,  # Register function
+                    function_call= {"name": "lottery_decision_FC"}, #"auto",  # Let GPT decide when to call the function
                     **self.params  # Pass additional parameters dynamically
                 )
-                return response.choices[0].message.content.strip()
+                # return response.choices[0].message.content.strip()
+                # Extract the assistant's full response (natural explanation)
+                # full_response = response.choices[0].message.content.strip()
+
+                # Extract the function call response
+                function_response = response.choices[0].message.function_call
+
+                logger.debug(f"-----------------------------")
+                logger.debug(f"function_response: {function_response}")
+                
+                # Default structured response
+                structured_response = {
+                    "Belief": "Not found",
+                    "Desire": "Not found",
+                    "Intention": "Not found",
+                    "Final_Option": "Not found"
+                }
+                
+                print("function response name: ", function_response.name)
+
+                if function_response and function_response.name == "lottery_decision_FC":
+                    structured_response = json.loads(function_response.arguments)
+                    print(structured_response)
+
+                # logger.debug(f"full_response: {full_response}")
+                logger.debug(f"structured_response: {structured_response}")
+
+                return structured_response
             else:
                 # Use completion format for non-chat models
                 response = openai.completions.create(
@@ -132,8 +183,11 @@ class LotteryAgent:
             # Persona stays the same across all rounds, so define it once
             persona_prompt = "You are a person not an AI model. "
             persona_prompt += persona_desc
+            logger.debug(f"persona_prompt: {persona_prompt}") 
             for instruction_id, instruction_desc in instructions_info.items():
+                logger.debug(f"instruction_desc: {instruction_desc}") 
                 for round_id, round_desc in rounds_info.items():
+                    logger.debug(f"round_desc: {round_desc}") 
                     logger.info(f"========= Running Experiment =========")
                     logger.info(f"persona_id: {persona_id}")
                     logger.info(f"instruction_id: {instruction_id}")
@@ -146,6 +200,8 @@ class LotteryAgent:
                     prompt += " You must end with 'Finally, I will choose option ___' ('A' or 'B' are required in the spaces)."
 
                     decision = self.query(persona_prompt, prompt)
+
+                    # final_answer = self.select(decision) choices=['OptionA', 'Option B']
 
                     logger.debug(f"Decision: {decision}") 
 

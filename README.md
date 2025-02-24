@@ -11,10 +11,10 @@ An in-depth paragraph about your project and overview of use.
 Current Game: Lottery Choices
 Proprity:
 - [ ] Choose multiple models, but one at a time
-     - [x] gpt-3.5-turbo             #is_chat       is_api
-     - [x] gpt-3.5-turbo-instruct    #is_chat F     is_api
-     - [x] gpt-4-turbo               #is_chat       is_api
-     - [x] gpt-4o                    #is_chat       is_api
+     - [x] gpt-3.5-turbo             #is_chat       is_api       is_supported_fc    
+     - [x] gpt-3.5-turbo-instruct    #is_chat F     is_api       is_supported_fc F
+     - [x] gpt-4-turbo               #is_chat       is_api       is_supported_fc
+     - [x] gpt-4o                    #is_chat       is_api       is_supported_fc
      - [ ] llama2-7b 
      - [ ] llama2-13b
      - [ ] llama2-70b
@@ -25,7 +25,10 @@ Proprity:
      - [ ] llama3
      - [ ] deepseek
 
-- [ ] Extract final output whether or not model chooses A or B 
+- [ ] See previous response vs not previous response
+- [ ] Extract final output whether or not model chooses A or B  #probability probing?
+     - [x] function_calls for applicable models
+     - [ ] write alternative methods for other non-fc models
 - [ ] Search for a better BDI reasoning
 - [ ] Record the r point (choosing between OptionA or OptionB)
 - [ ] Analysis
