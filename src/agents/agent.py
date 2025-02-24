@@ -1,10 +1,7 @@
 import openai
 import logging
+from logging_config import logger
 # from transformers import pipeline
-
-# Setup logging for better debugging
-logging.basicConfig(level=logging.INFO, format="%(asctime)s - %(levelname)s - %(message)s")
-
 
 class LotteryAgent:
 
@@ -32,7 +29,7 @@ class LotteryAgent:
         self.provider = provider
         self.params.update(kwargs)  # Update model parameters dynamically
 
-        logging.info(f"🔄 Switching model to: {self.model} (Provider: {self.provider})")
+        logger.info(f"🔄 Switching model to: {self.model} (Provider: {self.provider})")
 
     def query(self, system_prompt="", user_prompt=""):
         """
@@ -56,7 +53,7 @@ class LotteryAgent:
                 raise ValueError(f"❌ Unsupported provider: {self.provider}")
 
         except Exception as e:
-            logging.error(f"❌ Error querying {self.model}: {e}")
+            logger.error(f"❌ Error querying {self.model}: {e}")
             return None
 
     def _query_openai(self, system_prompt, user_prompt):
@@ -85,7 +82,7 @@ class LotteryAgent:
                 return response.choices[0].text.strip()
 
         except Exception as e:
-            logging.error(f"❌ OpenAI API error: {e}")
+            logger.error(f"❌ OpenAI API error: {e}")
             return None
 
     def _query_huggingface(self, user_prompt):
@@ -97,7 +94,7 @@ class LotteryAgent:
         #     response = generator(user_prompt, max_length=self.params.get("max_tokens", 100))
         #     return response[0]["generated_text"].strip()
         # except Exception as e:
-        #     logging.error(f"❌ Hugging Face API error: {e}")
+        #     logger.error(f"❌ Hugging Face API error: {e}")
         #     return None
         raise NotImplementedError("Huggingface model function to be implemented")
 
@@ -106,31 +103,15 @@ class LotteryAgent:
         """
         Queries a locally hosted LLM (e.g., LLaMA 2, custom fine-tuned models).
         """
-        # logging.info(f"🖥️ Running locally: {self.model}")
+        # logger.info(f"🖥️ Running locally: {self.model}")
         # return f"[Simulated response from {self.model}]: {user_prompt}"
         raise NotImplementedError("Local llm function to be implemented")
 
 
-    # def query_llm(self, system_prompt, user_prompt):
-    #     try:
-    #         response = openai.chat.completions.create(
-    #             model=self.model,
-    #             messages=[
-    #                 {"role": "system", "content": system_prompt},
-    #                 {"role": "user", "content": user_prompt}
-    #             ],
-    #             temperature=1.0,
-    #             # max_tokens=max_tokens,
-    #             # top_p=top_p,
-    #             # frequency_penalty=frequency_penalty,
-    #             # presence_penalty=presence_penalty
-    #         )
-    #         return response.choices[0].message.content.strip()
-    #     except Exception as e:
-    #         print(f"Error querying LLM: {e}")
-    #         return None  # Return None in case of failure
-
     def run_lottery_decisions(self, config):
+
+        logger.info(f"Running Experiment of {self.model}, {self.provider}")
+        
         personas_info = config["personas_info"]
         instructions_info = config["instructions_info"]
         rounds_info = config["rounds_info"]
@@ -143,6 +124,10 @@ class LotteryAgent:
             persona_prompt += persona_desc
             for instruction_id, instruction_desc in instructions_info.items():
                 for round_id, round_desc in rounds_info.items():
+                    logger.info(f"========= Running Experiment =========")
+                    logger.info(f"persona_id: {persona_id}")
+                    logger.info(f"instruction_id: {instruction_id}")
+                    logger.info(f"round_id: {round_id}")
                     # Reset `prompt` for each round to ensure independence
                     prompt = instruction_desc 
                     prompt += " "
@@ -152,7 +137,8 @@ class LotteryAgent:
 
                     decision = self.query(persona_prompt, prompt)
 
-                    print(decision)
+                    logger.debug(f"Decision: {decision}") 
+
                     results.append({
                         "persona": persona_id,
                         "persona desc": persona_desc,

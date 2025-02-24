@@ -7,14 +7,24 @@ import sys
 from agents.reasoning import get_reasoning
 import os
 from dotenv import load_dotenv
+import yaml
+import logging
+from logging_config  import logger# Import logging setup
+from utils import get_current_datetime
+
+
 load_dotenv()
 openai_api_key = os.getenv("OPENAI_API_KEY")
 
+# Load YAML config
+with open("config.yml", "r") as f:
+    config = yaml.safe_load(f)
+
 sys.path.append("../..")
 
-file_path_persona_info = 'prompt/persona-default.json'
-file_path_lottery_choices_instruction = 'prompt/games_instruction-test.json'
-file_path_lottery_choices = 'prompt/lottery_choices-test.json'
+file_path_persona_info = config['file_path']['file_path_persona_info']
+file_path_lottery_choices_instruction = config['file_path']['file_path_lottery_choices_instruction']
+file_path_lottery_choices = config['file_path']['file_path_lottery_choices']
 
 # Get default persona
 personas_info_json = open_file_as_json(file_path_persona_info)
@@ -38,7 +48,7 @@ print(rounds_info)
 
 reasoning = get_reasoning("BDI")
 
-config = {
+experiment_config = {
     "personas_info": personas_info,
     "instructions_info": instructions_info,
     "rounds_info": rounds_info,
@@ -46,17 +56,25 @@ config = {
 }
 
 agent_params = {
-    "temperature": 1.0,
-    "max_tokens": 1500 #must change
+    "temperature": config['model']['temperature'],
+    "max_tokens": config['model']['max_tokens'] #must change
 }
+
+model = config['model']['name']
+provider = config['model']['provider']
+
 # Run agent decisions
 # Initialize lottery agent
-agent = LotteryAgent(model = "gpt-4-turbo", provider = "openai", **agent_params)
-results = agent.run_lottery_decisions(config)
+agent = LotteryAgent(model = model, provider = provider, **agent_params)
+results = agent.run_lottery_decisions(experiment_config)
 
 # Save results to a JSON file
-os.makedirs("results", exist_ok=True)
-with open("results/lottery_results-test-gpt-3.5-turbo-instruct.json", "w") as f:
+formatted_time = get_current_datetime()
+
+os.makedirs(config['experiment']['output_dir'], exist_ok=True)
+output_path = f"{config['experiment']['output_dir']}/{config['experiment']['name']}-test-{model}-{formatted_time}.json"
+
+with open(output_path, "w") as f:
     json.dump(results, f, indent=4)
 
-print("Lottery choices processed by LLM agent. Results saved to 'lottery_results.json'.")
+print(f"Lottery choices processed by LLM agent. Results saved to {output_path}.")

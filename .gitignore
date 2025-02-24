@@ -173,3 +173,7 @@ cython_debug/
 # Beau
 Pipfile.lock
 .env
+
+src/results/*
+src/logs/*
+src/*/backup/*

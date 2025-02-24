@@ -1,0 +1,23 @@
+model: 
+  name: gpt-3.5-turbo
+  provider: openai
+  temperature: 1.0
+  max_tokens: 200
+
+experiment:
+  name: lottery_test
+  output_dir: results
+
+file_path:
+  file_path_persona_info: prompt/persona-default.json
+  file_path_lottery_choices_instruction: prompt/games_instruction-test.json
+  file_path_lottery_choices: prompt/lottery_choices-test.json
+
+logging:
+  level: DEBUG # Change to INFO, WARNING, ERROR, DEBUG etc.
+  log_dir: logs
+  log_file: "logs/experiment.log"
+
+# DEBUG → Everything is shown.
+# INFO → DEBUG messages are hidden.
+# WARNING → DEBUG and INFO messages are hidden.

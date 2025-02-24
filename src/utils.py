@@ -3,14 +3,14 @@ import copy
 import json
 import os
 import sys
-
 import openai
-# from camel.agents import ChatAgent
-# from camel.configs import ChatGPTConfig, OpenSourceConfig
-# from camel.messages import BaseMessage
-# from camel.types import ModelType, RoleType
-# from model_class import ExtendedModelType
-import os
+from datetime import datetime
+
+def get_current_datetime():
+    # Get current datetime
+    now = datetime.now()
+    formatted_time = now.strftime("%Y-%m-%d-%H-%M-%S")
+    return formatted_time
 
 def open_file_as_json(file_path):
     with open(file_path, 'r') as file:
