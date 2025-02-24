@@ -24,6 +24,7 @@ Proprity:
      Note: need to include? 
      - [ ] llama3
      - [ ] deepseek
+
 - [ ] Extract final output whether or not model chooses A or B 
 - [ ] Search for a better BDI reasoning
 - [ ] Record the r point (choosing between OptionA or OptionB)
@@ -44,6 +45,7 @@ Proprity:
       - [x] Output to log as well as terminal
 - [x] Test logging
 - [x] Create a config.yml file 
+- [x] Make testing without function without incurring LLM cost
 
 ### 🔹 Note to self:
 - Currently the model seems to be overly rational! it starts to calculating EV! huamn don't do that

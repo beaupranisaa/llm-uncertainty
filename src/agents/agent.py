@@ -46,9 +46,11 @@ class LotteryAgent:
             if self.provider == "openai":
                 return self._query_openai(system_prompt, user_prompt)
             elif self.provider == "huggingface":
-                return self._query_huggingface(user_prompt) #Fixed this
+                return self._query_huggingface(system_prompt, user_prompt) #Fixed this
             elif self.provider == "local":
-                return self._query_local(user_prompt)
+                return self._query_local(system_prompt, user_prompt)
+            elif self.provider == "test":
+                return self._query_test(system_prompt, user_prompt)
             else:
                 raise ValueError(f"❌ Unsupported provider: {self.provider}")
 
@@ -85,7 +87,7 @@ class LotteryAgent:
             logger.error(f"❌ OpenAI API error: {e}")
             return None
 
-    def _query_huggingface(self, user_prompt):
+    def _query_huggingface(self,system_prompt, user_prompt):
         """
         Queries a Hugging Face model using the Transformers pipeline.
         """
@@ -99,14 +101,22 @@ class LotteryAgent:
         raise NotImplementedError("Huggingface model function to be implemented")
 
 
-    def _query_local(self, user_prompt):
+    def _query_local(self, system_prompt, user_prompt):
         """
         Queries a locally hosted LLM (e.g., LLaMA 2, custom fine-tuned models).
         """
         # logger.info(f"🖥️ Running locally: {self.model}")
         # return f"[Simulated response from {self.model}]: {user_prompt}"
         raise NotImplementedError("Local llm function to be implemented")
-
+        
+    def _query_test(self, system_prompt, user_prompt):
+        """
+        Queries a locally hosted LLM (e.g., LLaMA 2, custom fine-tuned models).
+        """
+        # logger.info(f"🖥️ Running locally: {self.model}")
+        prompt = system_prompt + " " + user_prompt
+        return f"[Simulated response from {self.model}]: {prompt}"
+        # raise NotImplementedError("Local llm function to be implemented")
 
     def run_lottery_decisions(self, config):
 
