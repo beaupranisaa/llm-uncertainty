@@ -10,8 +10,6 @@ import yaml
 import logging
 from logging_config  import logger# Import logging setup
 from utils import get_current_datetime
-from agents import LotteryAgent 
-from experiments import LotteryExperiment
 
 
 load_dotenv()
@@ -62,14 +60,10 @@ model = config['model']['name']
 provider = config['model']['provider']
 is_function_call = config['model']['is_function_call']
 reasoning = config['model']['reasoning']
-
-# Initialize an agent
-agent = LotteryAgent(model = model, is_function_call = is_function_call, reasoning = reasoning, **agent_params)
-
-# Run Lottery Experiment
-lottery_exp = LotteryExperiment(agent)
-results = lottery_exp.run(agent, experiment_config)
-
+# Run agent decisions
+# Initialize lottery agent
+agent = LotteryAgent(model = model, provider = provider, is_function_call = is_function_call, reasoning = reasoning, **agent_params)
+results = agent.run_lottery_decisions(experiment_config)
 
 # Save results to a JSON file
 formatted_time = get_current_datetime()

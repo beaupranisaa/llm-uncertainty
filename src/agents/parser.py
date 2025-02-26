@@ -26,6 +26,7 @@ class BDI_option_extract(BaseModel):
     def validate_selected_option(cls, value):
         valid_options = {"Option A", "Option B", "option A", "option B"}  # Allowed values
         if value not in valid_options:
+            logger.debug(f"Selected option: {value}")
             return None  # If not valid, return None
         return value  # Otherwise, return the valid option
 

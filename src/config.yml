@@ -1,6 +1,6 @@
 model: 
-  name: gpt-4o-mini #gpt-3.5-turbo-instruct # gpt-3.5-turbo #gpt-3.5-turbo #gpt-4o
-  is_function_call: True
+  name: gpt-3.5-turbo-instruct #gpt-4o-mini #gpt-3.5-turbo-instruct # gpt-3.5-turbo #gpt-3.5-turbo #gpt-4o
+  is_function_call: False
   provider: openai #openai #test
   reasoning: BDI
   temperature: 1.0
@@ -23,3 +23,11 @@ logging:
 # DEBUG → Everything is shown.
 # INFO → DEBUG messages are hidden.
 # WARNING → DEBUG and INFO messages are hidden.
+
+#chat
+ #gpt-4o-mini 
+ # gpt-3.5-turbo 
+ #gpt-4o
+
+# non-chat
+ #gpt-3.5-turbo-instruct 

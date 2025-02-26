@@ -9,6 +9,7 @@ An in-depth paragraph about your project and overview of use.
 
 ## ✅ TODO List
 Current Game: Lottery Choices
+Current task: 📍
 Proprity:
 - [ ] Choose multiple models, but one at a time
      - [x] gpt-3.5-turbo             #is_chat       is_api       is_supported_fc    
@@ -24,15 +25,17 @@ Proprity:
      Note: need to include? 
      - [ ] llama3
      - [ ] deepseek
+
+- [x] Refactoring LLM module
+- [x] Make it modula with __init__.py
 - [ ] How to write testing so that i don't have to keep writing test everytime i change something
-- [ ] See previous response vs not previous response
+- [ ] 📍See previous response vs not previous response
 - [ ] Extract final output whether or not model chooses A or B  #probability probing?
      - [x] function_calls for applicable models # not long-term solutions because some models not applicable
      - [ ] write alternative methods for other non-fc models openai -> regex 
      - [x] write alternative methods for other non-fc models openai -> another models to extract. 
      - [x] write alternative methods for llama and vicuna --> another models to extract should work too for now
 - [ ] for some reason the output is super long hence the reasoning is not finished, and so no final option can be concluded
-- [ ] Make an alternative for BDI for function call >> must also change function_schema
 - [ ] Search for a better BDI reasoning
 - [ ] Record the r point (choosing between OptionA or OptionB)
 - [ ] Analysis
