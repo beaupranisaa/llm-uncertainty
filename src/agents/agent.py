@@ -2,35 +2,17 @@ import openai
 import logging
 from logging_config import logger
 import json
+from .parser import get_struct_output
+from .reasoning import get_reasoning
+from .function_calls import get_function_calls
 # from transformers import pipeline
 
 class LotteryAgent:
 
     # List of models that use chat-based inputs
-    CHAT_MODELS = {"gpt-3.5-turbo", "gpt-4o", "gpt-4-turbo"}
+    CHAT_MODELS = {"gpt-3.5-turbo",  "gpt-4o-mini", "gpt-4o", "gpt-4-turbo"}
 
-    lottery_function_schema = [
-        {
-            "name": "lottery_decision_FC",
-            "description": "Analyzes two lottery options and extracts the user's belief, desire, intention, and final choice.",
-            "parameters": {
-                "type": "object",
-                "properties": {
-                    "Belief": {"type": "string", "description": "The belief about the lottery choices."},
-                    "Desire": {"type": "string", "description": "The desire in choosing the lottery option."},
-                    "Intention": {"type": "string", "description": "The intention behind the lottery decision."},
-                    "Final_Option": {
-                        "type": "string",
-                        "enum": ["Option A", "Option B"],  # Restrict output to only these two
-                        "description": "The final choice (Option A or Option B)."
-                    }
-                },
-                "required": ["Belief", "Desire", "Intention", "Final_Option"]
-            }
-        }
-    ]
-
-    def __init__(self, model="gpt-3.5-turbo", provider="openai", **kwargs):
+    def __init__(self, model="gpt-3.5-turbo", provider="openai", is_function_call = False, reasoning = "BDI", **kwargs):
         """
         Initializes the agent with a default model and provider.
         
@@ -41,6 +23,8 @@ class LotteryAgent:
         """
         self.model = model
         self.provider = provider
+        self.is_function_call = is_function_call
+        self.reasoning = reasoning
         self.params = kwargs  # Store additional parameters dynamically
 
     def set_model(self, model, provider="openai", **kwargs):
@@ -80,6 +64,62 @@ class LotteryAgent:
             logger.error(f"❌ Error querying {self.model}: {e}")
             return None
 
+    def _query_chat_openai_fc(self, system_prompt, user_prompt):
+        # TODO: only works with BDI, not flexi enough
+        lottery_function_schema, structured_response = get_function_calls(self.reasoning)
+        response = openai.chat.completions.create(
+            model=self.model,
+            messages=[
+                {"role": "system", "content": system_prompt},
+                {"role": "user", "content": user_prompt}
+            ],
+            functions=lottery_function_schema,  # Register function
+            function_call= {"name": lottery_function_schema[0]['name']}, #"auto",  # Let GPT decide when to call the function
+            **self.params  # Pass additional parameters dynamically
+        )
+
+        # Extract the function call response
+        function_response = response.choices[0].message.function_call
+
+        logger.debug(f"-----------------------------")
+        logger.debug(f"function_response: {function_response}")
+        
+\
+        print("function response name: ", function_response.name)
+
+        if function_response and function_response.name == "lottery_decision_FC":
+            structured_response = json.loads(function_response.arguments)
+\
+        # logger.debug(f"full_response: {full_response}")
+        logger.debug(f"structured_response: {structured_response}")
+
+        return structured_response
+    
+    def _query_chat_openai_nfc(self, system_prompt, user_prompt):
+
+        response = openai.chat.completions.create(
+            model=self.model,
+            messages=[
+                {"role": "system", "content": system_prompt},
+                {"role": "user", "content": user_prompt}
+            ],
+            **self.params  # Pass additional parameters dynamically
+        )
+        
+        logger.debug(f"_query_chat_openai_nfc: {response.choices[0].message.content.strip()}")
+        return response.choices[0].message.content.strip()
+    
+    def _query_nchat_openai_nfc(self, system_prompt, user_prompt):
+        # Use completion format for non-chat models
+        response = openai.completions.create(
+            model=self.model,
+            prompt=system_prompt + " " + user_prompt,
+            **self.params
+        )
+        logger.debug(f"_query_nchat_openai_nfc: {response.choices[0].text.strip()}")
+        return response.choices[0].text.strip()
+
+
     def _query_openai(self, system_prompt, user_prompt):
         """
         Queries OpenAI's models and dynamically selects chat or completion format.
@@ -87,52 +127,20 @@ class LotteryAgent:
         try:
             if self.model in self.CHAT_MODELS:
                 # Use chat format for chat-based models
-                response = openai.chat.completions.create(
-                    model=self.model,
-                    messages=[
-                        {"role": "system", "content": system_prompt},
-                        {"role": "user", "content": user_prompt}
-                    ],
-                    functions=self.lottery_function_schema,  # Register function
-                    function_call= {"name": "lottery_decision_FC"}, #"auto",  # Let GPT decide when to call the function
-                    **self.params  # Pass additional parameters dynamically
-                )
-                # return response.choices[0].message.content.strip()
-                # Extract the assistant's full response (natural explanation)
-                # full_response = response.choices[0].message.content.strip()
+                if self.is_function_call:
+                    # Use chat format for chat-based models + function_calls
+                    res = self._query_chat_openai_fc(system_prompt, user_prompt)
+                    return res, res["Final_Option"]
 
-                # Extract the function call response
-                function_response = response.choices[0].message.function_call
-
-                logger.debug(f"-----------------------------")
-                logger.debug(f"function_response: {function_response}")
-                
-                # Default structured response
-                structured_response = {
-                    "Belief": "Not found",
-                    "Desire": "Not found",
-                    "Intention": "Not found",
-                    "Final_Option": "Not found"
-                }
-                
-                print("function response name: ", function_response.name)
-
-                if function_response and function_response.name == "lottery_decision_FC":
-                    structured_response = json.loads(function_response.arguments)
-                    print(structured_response)
-
-                # logger.debug(f"full_response: {full_response}")
-                logger.debug(f"structured_response: {structured_response}")
-
-                return structured_response
+                else:
+                    logger.debug(f"model: {self.model}")
+                    logger.debug(f"""function_calls: {self.is_function_call}""")
+                    # Use chat format for chat-based models + no function_calls
+                    res = self._query_chat_openai_nfc(system_prompt, user_prompt)
+                    return res, get_struct_output(res, self.reasoning)
             else:
                 # Use completion format for non-chat models
-                response = openai.completions.create(
-                    model=self.model,
-                    prompt=system_prompt + " " + user_prompt,
-                    **self.params
-                )
-                return response.choices[0].text.strip()
+                return self._query_nchat_openai_nfc(system_prompt, user_prompt)
 
         except Exception as e:
             logger.error(f"❌ OpenAI API error: {e}")
@@ -176,7 +184,7 @@ class LotteryAgent:
         personas_info = config["personas_info"]
         instructions_info = config["instructions_info"]
         rounds_info = config["rounds_info"]
-        reasoning = config["reasoning"]
+        reasoning = get_reasoning("BDI")
         results = []
 
         for persona_id, persona_desc in personas_info.items():
@@ -199,11 +207,13 @@ class LotteryAgent:
                     prompt += reasoning
                     prompt += " You must end with 'Finally, I will choose option ___' ('A' or 'B' are required in the spaces)."
 
-                    decision = self.query(persona_prompt, prompt)
+                    # return both parsed output and not parsed
+                    res, struct_res = self.query(persona_prompt, prompt)
 
                     # final_answer = self.select(decision) choices=['OptionA', 'Option B']
 
-                    logger.debug(f"Decision: {decision}") 
+                    logger.debug(f"Response: {res}") 
+                    logger.debug(f"Struct Response: {struct_res}") 
 
                     results.append({
                         "persona": persona_id,
@@ -213,7 +223,8 @@ class LotteryAgent:
                         "round": round_id,
                         "round desc": round_desc,
                         "prompt": prompt,
-                        "decision": decision
+                        "raw_res": res,
+                        "struct_res": struct_res
                     })
 
         return results

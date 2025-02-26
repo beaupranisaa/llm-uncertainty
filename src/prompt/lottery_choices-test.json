@@ -13,20 +13,6 @@
                 "probability_low": "9/10",
                 "reward_low": "$0.10"
             }
-        },
-        {
-            "Option_A": {
-                "probability_high": "2/10",
-                "reward_high": "$2.00",
-                "probability_low": "8/10",
-                "reward_low": "$1.60"
-            },
-            "Option_B": {
-                "probability_high": "2/10",
-                "reward_high": "$3.85",
-                "probability_low": "8/10",
-                "reward_low": "$0.10"
-            }
         }
     ]
 }

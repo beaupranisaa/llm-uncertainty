@@ -24,11 +24,15 @@ Proprity:
      Note: need to include? 
      - [ ] llama3
      - [ ] deepseek
-
+- [ ] How to write testing so that i don't have to keep writing test everytime i change something
 - [ ] See previous response vs not previous response
 - [ ] Extract final output whether or not model chooses A or B  #probability probing?
-     - [x] function_calls for applicable models
-     - [ ] write alternative methods for other non-fc models
+     - [x] function_calls for applicable models # not long-term solutions because some models not applicable
+     - [ ] write alternative methods for other non-fc models openai -> regex 
+     - [x] write alternative methods for other non-fc models openai -> another models to extract. 
+     - [x] write alternative methods for llama and vicuna --> another models to extract should work too for now
+- [ ] for some reason the output is super long hence the reasoning is not finished, and so no final option can be concluded
+- [ ] Make an alternative for BDI for function call >> must also change function_schema
 - [ ] Search for a better BDI reasoning
 - [ ] Record the r point (choosing between OptionA or OptionB)
 - [ ] Analysis
@@ -49,6 +53,9 @@ Proprity:
 - [x] Test logging
 - [x] Create a config.yml file 
 - [x] Make testing without function without incurring LLM cost
+- [x] How to handle cases where we cannot extract options --> returns None 
+- [x] Make reasoning more dynamic, can support if new reasoning approach is introduced --> see agent/reasoning.py
+- [x] Make function call more modula
 
 ### 🔹 Note to self:
 - Currently the model seems to be overly rational! it starts to calculating EV! huamn don't do that

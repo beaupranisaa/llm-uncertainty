@@ -176,4 +176,5 @@ Pipfile.lock
 
 src/results/*
 src/logs/*
-src/*/backup/*
+src/agents/backup/*
+src/prompt/backup/*

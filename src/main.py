@@ -4,7 +4,6 @@ import openai
 from agents.agent import *
 from utils import open_file_as_json, process_lottery_choices
 import sys
-from agents.reasoning import get_reasoning
 import os
 from dotenv import load_dotenv
 import yaml
@@ -46,33 +45,31 @@ rounds_info = process_lottery_choices(round_info_json)
 print("=========== ROUNDS INFO ============")
 print(rounds_info)
 
-reasoning = get_reasoning("BDI")
-
 experiment_config = {
     "personas_info": personas_info,
     "instructions_info": instructions_info,
     "rounds_info": rounds_info,
-    "reasoning": reasoning
 }
 
 agent_params = {
     "temperature": config['model']['temperature'],
-    "max_tokens": config['model']['max_tokens'] #must change
+    "max_tokens": config['model']['max_tokens'], #must change
 }
 
 model = config['model']['name']
 provider = config['model']['provider']
-
+is_function_call = config['model']['is_function_call']
+reasoning = config['model']['reasoning']
 # Run agent decisions
 # Initialize lottery agent
-agent = LotteryAgent(model = model, provider = provider, **agent_params)
+agent = LotteryAgent(model = model, provider = provider, is_function_call = is_function_call, reasoning = reasoning, **agent_params)
 results = agent.run_lottery_decisions(experiment_config)
 
 # Save results to a JSON file
 formatted_time = get_current_datetime()
 
 os.makedirs(config['experiment']['output_dir'], exist_ok=True)
-output_path = f"{config['experiment']['output_dir']}/{config['experiment']['name']}-test-{model}-{formatted_time}.json"
+output_path = f"{config['experiment']['output_dir']}/{config['experiment']['name']}-test-{model}-{is_function_call}-{formatted_time}.json"
 
 with open(output_path, "w") as f:
     json.dump(results, f, indent=4)

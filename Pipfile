@@ -8,6 +8,7 @@ dotenv = "*"
 openai = "*"
 pyyaml = "*"
 datetime = "*"
+instructor = "*"
 
 [dev-packages]
 
