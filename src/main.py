@@ -1,7 +1,6 @@
 import json
 import itertools
 import openai
-from agents.agent import *
 from utils import open_file_as_json, process_lottery_choices
 import sys
 import os

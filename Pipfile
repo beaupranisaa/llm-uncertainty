@@ -9,6 +9,7 @@ openai = "*"
 pyyaml = "*"
 datetime = "*"
 instructor = "*"
+ipykernel = "*"
 
 [dev-packages]
 

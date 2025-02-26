@@ -1,10 +1,10 @@
 model: 
-  name: gpt-3.5-turbo-instruct #gpt-4o-mini #gpt-3.5-turbo-instruct # gpt-3.5-turbo #gpt-3.5-turbo #gpt-4o
+  name: gpt-4o-mini #gpt-4o-mini #gpt-3.5-turbo-instruct # gpt-3.5-turbo #gpt-3.5-turbo #gpt-4o
   is_function_call: False
   provider: openai #openai #test
   reasoning: BDI
   temperature: 1.0
-  max_tokens: 200
+  max_tokens: 1024
 
 experiment:
   name: lottery_test
@@ -13,7 +13,7 @@ experiment:
 file_path:
   file_path_persona_info: prompt/persona-default.json
   file_path_lottery_choices_instruction: prompt/games_instruction-test.json
-  file_path_lottery_choices: prompt/lottery_choices-test.json
+  file_path_lottery_choices: prompt/lottery_choices.json
 
 logging:
   level: DEBUG # Change to INFO, WARNING, ERROR, DEBUG etc.

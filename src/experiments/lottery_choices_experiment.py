@@ -34,10 +34,8 @@ class LotteryExperiment(BaseExperiment):
                     prompt += reasoning
                     prompt += " You must end with 'Finally, I will choose option ___' ('A' or 'B' are required in the spaces)."
 
-                    # return both parsed output and not parsed
-                    res, struct_res = self.agent.invoke(persona_prompt, prompt)
 
-                    # final_answer = self.select(decision) choices=['OptionA', 'Option B']
+                    res, struct_res = self.agent.invoke(persona_prompt, prompt)
 
                     logger.debug(f"Response: {res}") 
                     logger.debug(f"Struct Response: {struct_res}") 
