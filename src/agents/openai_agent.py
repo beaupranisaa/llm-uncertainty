@@ -41,9 +41,10 @@ class OpenAIAgent(BaseAgent):
 
         if function_response and function_response.name == "lottery_decision_FC":
             res = json.loads(function_response.arguments)
-            logger.debug(f"structured_response: {structured_response}")
 
-        return res, res["Final_Option"]
+        struct_res = get_struct_output(res, self.reasoning, is_chat = True)
+        logger.debug(f"struct_res: {struct_res}")
+        return res, struct_res, struct_res[0]
     
     def _invoke_chat_nfc(self, system_prompt, user_prompt):
         response = openai.chat.completions.create(
@@ -57,7 +58,8 @@ class OpenAIAgent(BaseAgent):
         
         logger.debug(f"_query_chat_openai_nfc: {response.choices[0].message.content.strip()}")
         res = response.choices[0].message.content.strip()
-        return res, get_struct_output(res, self.reasoning)
+        struct_res = get_struct_output(res, self.reasoning, is_chat = False)
+        return res, struct_res, struct_res[0]
     
     def _invoke_fc(self, system_prompt, user_prompt):
         raise NotImplementedError("Not yet done")
@@ -71,7 +73,8 @@ class OpenAIAgent(BaseAgent):
         )
         logger.debug(f"_query_nchat_openai_nfc: {response.choices[0].text.strip()}")
         res = response.choices[0].text.strip()
-        return res, get_struct_output(res, self.reasoning)
+        struct_res = get_struct_output(res, self.reasoning)
+        return res, struct_res, struct_res[0]
 
     def invoke(self, system_prompt, user_prompt):
         try:

@@ -24,13 +24,38 @@ class BDI_option_extract(BaseModel):
     @field_validator("selected_option", mode="before")
     @classmethod
     def validate_selected_option(cls, value):
-        valid_options = {"Option A", "Option B", "option A", "option B"}  # Allowed values
-        if value not in valid_options:
-            logger.debug(f"Selected option: {value}")
-            return None  # If not valid, return None
-        return value  # Otherwise, return the valid option
+        valid_options = {
+            "Option A": "A", "option A": "A", "A": "A",
+            "Option B": "B", "option B": "B", "B": "B"
+        }
+        normalized_value = valid_options.get(value.strip(), None)  # Normalize or return None
+        if normalized_value is None:
+            logger.debug(f"Invalid selected option: {value}")
+        return normalized_value
 
-def get_struct_output(input, reasoning = "BDI", test=False):
+def transform_output(input, response_mod):
+    
+    if response_mod.__name__ == "BDI_option_extract":
+        # Mapping the original structure to the new structure
+        belief_mapping = input.get("Belief", "").strip()
+        desire_mapping = input.get("Desire", "").strip()
+        intention_mapping = input.get("Intention", "").strip()
+
+        selected_option = input.get("Final_Option", "").strip()
+        logger.debug(f"selected_option {selected_option}")
+
+        
+        transformed_data = response_mod(
+            belief=belief_mapping,
+            desire=desire_mapping,
+            intention=intention_mapping,
+            selected_option=f"{selected_option}"
+        )
+        return transformed_data
+    else:
+        logger.error(f"❌ Error Unsupported {reasoning}: {e}")
+
+def get_struct_output(input, reasoning = "BDI", is_chat = False, test=False):
     if test:
         return (1, {})
     
@@ -40,15 +65,19 @@ def get_struct_output(input, reasoning = "BDI", test=False):
         logger.error(f"❌ Error Unsupported {reasoning}: {e}")
     
     logger.debug(f"Input: {input}")
-    resp = client.chat.completions.create(
-        model="gpt-4o-mini",  # TODO change if you need
-        response_model=response_mod,
-        messages=[
-            {"role": "user", "content": input},
-        ],
-    )
 
-    logger.debug(f"Output from get_struct_output {resp}")
+    if is_chat:
+        resp = transform_output(input, response_mod)
+    else:
+        resp = client.chat.completions.create(
+            model="gpt-4o-mini",  # TODO change if you need
+            response_model=response_mod,
+            messages=[
+                {"role": "user", "content": input},
+            ],
+        )
+
+        logger.debug(f"Output from get_struct_output {resp}")
 
     if response_mod.__name__ == "BDI_option_extract":
         option_extracted = resp.selected_option

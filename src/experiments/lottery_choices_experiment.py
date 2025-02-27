@@ -13,8 +13,10 @@ class LotteryExperiment(BaseExperiment):
         rounds_info = config["rounds_info"]
         reasoning = agent.model.reasoning_prompt
         results = []
+        id = 0
 
         for persona_id, persona_desc in personas_info.items():
+            id = id
             # Persona stays the same across all rounds, so define it once
             persona_prompt = "You are a person not an AI model. "
             persona_prompt += persona_desc
@@ -35,12 +37,13 @@ class LotteryExperiment(BaseExperiment):
                     prompt += " You must end with 'Finally, I will choose option ___' ('A' or 'B' are required in the spaces)."
 
 
-                    res, struct_res = self.agent.invoke(persona_prompt, prompt)
+                    res, struct_res, selected_option = self.agent.invoke(persona_prompt, prompt)
 
                     logger.debug(f"Response: {res}") 
                     logger.debug(f"Struct Response: {struct_res}") 
 
                     results.append({
+                        "id_exp": id,
                         "persona": persona_id,
                         "persona desc": persona_desc,
                         "instruction": instruction_id,
@@ -49,7 +52,10 @@ class LotteryExperiment(BaseExperiment):
                         "round desc": round_desc,
                         "prompt": prompt,
                         "raw_res": res,
-                        "struct_res": struct_res
+                        "struct_res": struct_res,
+                        "selected_option": selected_option
                     })
+            
+                id += 1
         self._log_results(results)
         return results

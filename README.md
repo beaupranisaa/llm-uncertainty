@@ -16,6 +16,7 @@ Proprity:
      - [x] gpt-3.5-turbo-instruct    #is_chat F     is_api       is_supported_fc F
      - [x] gpt-4-turbo               #is_chat       is_api       is_supported_fc
      - [x] gpt-4o                    #is_chat       is_api       is_supported_fc
+     - [x] gpt-4o-mini               #is_chat       is_api       is_supported_fc
      - [ ] llama2-7b 
      - [ ] llama2-13b
      - [ ] llama2-70b
@@ -28,12 +29,14 @@ Proprity:
 
 - [ ] How to write testing so that i don't have to keep writing test everytime i change something
 
-- [ ] Record the r point (choosing between OptionA or OptionB)
-- [ ] Analysis
+- [ ] 📍 Record the r point (choosing between OptionA or OptionB)
+     - Handle two cases 1) AAABABBBB 2) AnullAAnullnullBBBB
+- [ ] Analysis reasoning
 
-- [ ] 📍See previous response vs not previous response
+- [ ] See previous response vs not previous response
      - [ ] Run experiments without seeing previous response
      - [ ] Run experiments with seeing previous response
+- [ ] reasoning increases rationality of the model's decision making --> no good
 - [ ] Extract final output whether or not model chooses A or B  #probability probing?
      - [x] function_calls for applicable models # not long-term solutions because some models not applicable
      - [ ] write alternative methods for other non-fc models openai -> regex 
@@ -67,6 +70,8 @@ Proprity:
 - [x] Function Call vs no Function Call
      - [x] Run experiments without Function Call on gpt-4o-mini
      - [x] Run experiments with Function Call on gpt-4o-mini
+- [x] Initialized id_exp each id has 10 rounds of lottery choices
+- [x] Normalized output of chat_fc, chat_nf, non-chat 
 
 ### 🔹 Note to self:
 - Currently the model seems to be overly rational! it starts to calculating EV! huamn don't do that
